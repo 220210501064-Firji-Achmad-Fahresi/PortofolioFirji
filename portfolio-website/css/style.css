@@ -11,6 +11,27 @@ html, body {
     max-width: 100%;
 }
 
+/* Universal overflow prevention */
+* {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Prevent specific elements from causing overflow */
+pre, code, .code-body {
+    overflow-x: auto;
+    max-width: 100%;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* Flexbox containers should not overflow */
+.flex, [class*="flex"], [style*="display: flex"], [style*="display:flex"] {
+    min-width: 0;
+    flex-wrap: wrap;
+}
+
 html {
     scroll-behavior: smooth;
     font-size: 16px;
@@ -139,6 +160,9 @@ body {
     padding: 0 var(--space-sm);
     width: 100%;
     box-sizing: border-box;
+    /* Prevent overflow */
+    overflow-x: hidden;
+    min-width: 0;
 }
 
 @media (min-width: 640px) {
@@ -157,6 +181,29 @@ body {
     .container {
         padding: 0 var(--space-xl);
     }
+}
+
+/* Universal responsive container */
+.responsive-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+/* Responsive flexbox containers */
+.flex-container {
+    display: flex;
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+    flex-wrap: wrap;
+}
+
+.flex-container > * {
+    min-width: 0;
+    flex-shrink: 1;
 }
 
 /* Loading Screen */
@@ -953,6 +1000,9 @@ section {
     grid-template-columns: 1fr;
     gap: var(--space-2xl);
     align-items: center;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .about-card {
@@ -960,6 +1010,12 @@ section {
     padding: var(--space-2xl);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow);
+    /* Prevent overflow */
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    word-wrap: break-word;
+    min-width: 0;
 }
 
 .about-card h3 {
@@ -967,12 +1023,16 @@ section {
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: var(--space-md);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .about-card p {
     color: var(--text-secondary);
     margin-bottom: var(--space-md);
     line-height: 1.7;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .stats {
@@ -983,6 +1043,9 @@ section {
     padding: var(--space-lg) 0;
     border-top: 1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 @media (min-width: 480px) {
@@ -995,6 +1058,8 @@ section {
 
 .stat-item {
     text-align: center;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .stat-number {
@@ -1003,6 +1068,7 @@ section {
     font-weight: 700;
     color: var(--primary-color);
     margin-bottom: var(--space-xs);
+    word-wrap: break-word;
 }
 
 .stat-label {
@@ -1010,18 +1076,26 @@ section {
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    word-wrap: break-word;
 }
 
 .about-buttons {
     display: flex;
     flex-direction: column;
     gap: var(--space-sm);
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: wrap;
 }
 
 .visual-container {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    min-width: 0;
 }
 
 .code-snippet {
@@ -1031,6 +1105,9 @@ section {
     width: 100%;
     max-width: 500px;
     box-shadow: var(--shadow-xl);
+    /* Prevent horizontal overflow */
+    min-width: 0;
+    flex-shrink: 1;
 }
 
 .code-header {
@@ -1040,11 +1117,16 @@ section {
     padding: var(--space-sm) var(--space-md);
     background: rgba(255, 255, 255, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    /* Prevent overflow */
+    min-width: 0;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
 }
 
 .code-dots {
     display: flex;
     gap: var(--space-xs);
+    flex-shrink: 0;
 }
 
 .code-dots span {
@@ -1061,11 +1143,22 @@ section {
     color: var(--text-white);
     font-size: var(--font-size-sm);
     font-weight: 500;
+    /* Prevent overflow */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    flex: 1;
 }
 
 .code-body {
     padding: var(--space-md);
     overflow-x: auto;
+    /* Better mobile handling */
+    max-width: 100%;
+    word-break: break-all;
+    white-space: pre-wrap;
+    -webkit-overflow-scrolling: touch;
 }
 
 .code-body pre {
@@ -1073,6 +1166,12 @@ section {
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     font-size: var(--font-size-sm);
     line-height: 1.6;
+    /* Prevent overflow */
+    overflow-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
+    max-width: 100%;
+    margin: 0;
 }
 
 @media (min-width: 768px) {
@@ -1902,11 +2001,22 @@ section {
 
 /* Mobile Optimizations */
 @media (max-width: 768px) {
+    /* Universal mobile overflow prevention */
+    * {
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+    
     /* Touch-friendly buttons */
     .btn {
         min-height: 44px;
         padding: var(--space-sm) var(--space-lg);
         font-size: var(--font-size-base);
+        width: 100%;
+        max-width: 100%;
+        word-wrap: break-word;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     
     /* Larger tap targets for mobile */
@@ -1928,6 +2038,10 @@ section {
     .contact-card,
     .contact-form-container {
         padding: var(--space-lg);
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        word-wrap: break-word;
     }
     
     /* Optimize text size for mobile reading */
@@ -1935,6 +2049,8 @@ section {
     .section-description {
         font-size: var(--font-size-base);
         line-height: 1.6;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
     
     /* Better mobile form styling */
@@ -1943,6 +2059,10 @@ section {
         padding: var(--space-sm);
         font-size: var(--font-size-base);
         min-height: 44px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        word-wrap: break-word;
     }
     
     /* Mobile-friendly project cards */
@@ -1957,6 +2077,9 @@ section {
     
     .timeline-item {
         padding-left: 45px;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
     }
     
     .timeline-marker {
@@ -1967,6 +2090,63 @@ section {
         width: 30px;
         height: 30px;
         font-size: var(--font-size-sm);
+    }
+    
+    /* Prevent code blocks from overflow */
+    .code-snippet {
+        max-width: calc(100vw - var(--space-md));
+        min-width: 0;
+    }
+    
+    .code-body {
+        font-size: var(--font-size-xs);
+        padding: var(--space-sm);
+        word-break: break-all;
+        overflow-wrap: break-word;
+        white-space: pre-wrap;
+    }
+    
+    /* Responsive grid containers */
+    .about-content,
+    .contact-content,
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+    }
+    
+    /* Prevent any flex container overflow */
+    .hero-buttons,
+    .about-buttons,
+    .contact-items,
+    .social-links,
+    .projects-filter,
+    .nav-controls {
+        width: 100%;
+        max-width: 100%;
+        flex-wrap: wrap;
+        overflow: hidden;
+        gap: var(--space-xs);
+    }
+    
+    /* Text elements overflow protection */
+    h1, h2, h3, h4, h5, h6, p, span, div {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        max-width: 100%;
+    }
+    
+    /* Specific mobile code handling */
+    pre, code {
+        white-space: pre-wrap;
+        word-break: break-all;
+        overflow-wrap: break-word;
+        font-size: var(--font-size-xs);
+        max-width: 100%;
+        overflow-x: auto;
     }
 }
 
