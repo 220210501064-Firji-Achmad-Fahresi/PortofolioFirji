@@ -60,8 +60,10 @@ hamburger.addEventListener('click', () => {
     
     // Prevent body scroll when menu is open
     if (navMenu.classList.contains('active')) {
+        document.body.classList.add('menu-open');
         document.body.style.overflow = 'hidden';
     } else {
+        document.body.classList.remove('menu-open');
         document.body.style.overflow = '';
     }
 });
@@ -71,6 +73,7 @@ navLinks.forEach(link => {
     link.addEventListener('click', () => {
         hamburger.classList.remove('active');
         navMenu.classList.remove('active');
+        document.body.classList.remove('menu-open');
         document.body.style.overflow = '';
     });
 });
@@ -498,9 +501,53 @@ window.addEventListener('resize', () => {
     if (window.innerWidth > 768) {
         hamburger.classList.remove('active');
         navMenu.classList.remove('active');
+        document.body.classList.remove('menu-open');
         document.body.style.overflow = '';
     }
+    
+    // Update navbar height for mobile
+    updateNavbarHeight();
 });
+
+// Update navbar height dynamically
+function updateNavbarHeight() {
+    const navbar = document.getElementById('navbar');
+    const isMobile = window.innerWidth <= 640;
+    navbar.style.height = isMobile ? '60px' : '70px';
+}
+
+// Mobile touch optimizations
+if ('ontouchstart' in window) {
+    // Add touch class to body for CSS targeting
+    document.body.classList.add('touch-device');
+    
+    // Improve touch scrolling on iOS
+    document.body.style.webkitOverflowScrolling = 'touch';
+    
+    // Handle touch events for better mobile interaction
+    const touchElements = document.querySelectorAll('.btn, .project-card, .skill-item, .social-link');
+    
+    touchElements.forEach(element => {
+        element.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.98)';
+        });
+        
+        element.addEventListener('touchend', function() {
+            this.style.transform = '';
+        });
+    });
+}
+
+// Prevent zoom on double tap for iOS
+document.addEventListener('touchend', function(event) {
+    const now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
+
+let lastTouchEnd = 0;
 
 // Keyboard Navigation
 document.addEventListener('keydown', (e) => {
