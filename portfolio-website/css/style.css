@@ -415,8 +415,21 @@ body {
         display: flex;
         gap: var(--space-lg);
         align-items: center;
-        margin-left: var(--space-xl); /* Beri jarak dari logo */
-        margin-right: var(--space-xl); /* Beri jarak dari controls */
+        justify-content: center;
+        grid-column: 2; /* Posisi di tengah grid */
+        margin: 0;
+    }
+    
+    .nav-controls {
+        grid-column: 3; /* Posisi di kanan grid */
+        position: static;
+        transform: none;
+        margin-left: 0;
+        justify-self: end;
+    }
+    
+    .nav-logo {
+        grid-column: 1; /* Posisi di kiri grid */
     }
     
     .hamburger {
@@ -2378,3 +2391,4 @@ section {
         margin-bottom: var(--space-md);
     }
 }
+
