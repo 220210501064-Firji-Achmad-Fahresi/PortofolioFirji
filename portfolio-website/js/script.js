@@ -368,11 +368,14 @@ function removeNotification(notification) {
 
 // Typing Effect for Hero Text
 function createTypingEffect() {
-    const roles = ['Full Stack Developer', 'Web Developer', 'Software Engineer', 'Problem Solver' , 'AI Engineer'];
+    const roles = ['Fullstack Developer', 'Software Engineer', 'AI Engineer', 'Problem Solver'];
     const roleElement = document.querySelector('.role');
     let currentRoleIndex = 0;
     let currentCharIndex = 0;
     let isDeleting = false;
+    
+    // Check if mobile device
+    const isMobile = window.innerWidth <= 768;
     
     function typeRole() {
         const currentRole = roles[currentRoleIndex];
@@ -385,24 +388,24 @@ function createTypingEffect() {
             currentCharIndex++;
         }
         
-        // Determine typing speed
-        let typeSpeed = isDeleting ? 50 : 100;
+        // Determine typing speed (faster on mobile)
+        let typeSpeed = isDeleting ? (isMobile ? 30 : 50) : (isMobile ? 60 : 100);
         
         // If word is complete
         if (!isDeleting && currentCharIndex === currentRole.length) {
-            typeSpeed = 2000; // Pause at end
+            typeSpeed = isMobile ? 1500 : 2000; // Shorter pause on mobile
             isDeleting = true;
         } else if (isDeleting && currentCharIndex === 0) {
             isDeleting = false;
             currentRoleIndex = (currentRoleIndex + 1) % roles.length;
-            typeSpeed = 500; // Pause before starting new word
+            typeSpeed = isMobile ? 300 : 500; // Shorter pause before starting new word on mobile
         }
         
         setTimeout(typeRole, typeSpeed);
     }
     
-    // Start typing effect after page load
-    setTimeout(typeRole, 1000);
+    // Start typing effect after page load (faster start on mobile)
+    setTimeout(typeRole, isMobile ? 500 : 1000);
 }
 
 // Parallax Effect for Hero Background
